@@ -298,16 +298,19 @@ class CanUrl extends Component {
 
 
 
+
     /**
      * @param string|null $current_url
      * @param bool        $is_final
      */
-    public function if_need_then_send_redirect($is_final, $current_url = null) {
+    public function if_need_then_send_redirect($is_final, $current_url = null, $just_get_and_head = true) {
+        if (!empty($just_get_and_head) AND in_array(\Yii::$app->getRequest()->getMethod(),['GET','HEAD'],true)) return false;
         $res = $this->is_need_redirect($is_final, $current_url);
         if ($res === false) return false;
         \Yii::$app->getResponse()->redirect($res,301,true)->send();
         exit;
     }
+
     /**
      * @param string|null $current_url
      * @param bool        $is_final
