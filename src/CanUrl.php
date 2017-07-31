@@ -190,7 +190,7 @@ class CanUrl extends Component implements BootstrapInterface {
 
         /** @var \yii\web\View $view */
         $view = $event->sender;
-        $view->metaTags['canonical'] = '<link rel="canonical" href="'.$canurl.'"/>';
+        $view->linkTags['canonical'] = '<link rel="canonical" href="'.$canurl.'"/>';
 
         $this->if_need_then_send_redirect(TRUE);
     }
