@@ -3,6 +3,7 @@
 namespace v3project\helpers;
 
 
+use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
 use yii\base\Exception;
@@ -53,8 +54,14 @@ use yii\web\View;
  *
  *
  */
-class CanUrl extends Component {
+class CanUrl extends Component implements BootstrapInterface {
 
+    public function bootstrap($application)
+    {
+        if (!\Yii::$app instanceof Application) {
+            return false;
+        }
+    }
 
     protected $_scheme;
     public function SETscheme($value) { $this->_scheme = $value; return $this;  }
