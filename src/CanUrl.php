@@ -342,7 +342,6 @@ class CanUrl extends Component implements BootstrapInterface {
      */
     public function if_need_then_send_redirect($is_final, $current_url = null) {
 
-        die('1');
         if (!$this->is_tracked()) return false;
 
         $res = $this->is_need_redirect($is_final, $current_url);
