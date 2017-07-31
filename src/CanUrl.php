@@ -3,6 +3,7 @@
 namespace v3project\helpers;
 
 
+use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;
 use yii\base\Exception;
@@ -54,8 +55,16 @@ use yii\web\View;
  *
  *
  */
-class CanUrl extends Component {
+class CanUrl extends Component implements BootstrapInterface {
 
+    public function bootstrap($application)
+    {
+        if (!\Yii::$app instanceof Application) {
+            return false;
+        }
+
+        $this->init_events();
+    }
 
     protected $_scheme;
     public function SETscheme($value) { $this->_scheme = $value; return $this;  }
@@ -168,11 +177,11 @@ class CanUrl extends Component {
 
 
 
-    public function init() {
-        if ($this->is_tracked()) {
-            \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
-            \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
-        }
+    public function init() {}
+
+    public function init_events() {
+        \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
+        \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
     }
 
     public function event_end_page(Event $event) {
@@ -185,6 +194,7 @@ class CanUrl extends Component {
 
         $this->if_need_then_send_redirect(TRUE);
     }
+
     public function event_after_request(Event $event) {
         $this->if_need_then_send_redirect(TRUE);
     }
@@ -332,6 +342,7 @@ class CanUrl extends Component {
      */
     public function if_need_then_send_redirect($is_final, $current_url = null) {
 
+        die('1');
         if (!$this->is_tracked()) return false;
 
         $res = $this->is_need_redirect($is_final, $current_url);
