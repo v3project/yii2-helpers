@@ -62,6 +62,8 @@ class CanUrl extends Component implements BootstrapInterface {
         if (!\Yii::$app instanceof Application) {
             return false;
         }
+
+        $this->init_events();
     }
 
     protected $_scheme;
@@ -175,11 +177,11 @@ class CanUrl extends Component implements BootstrapInterface {
 
 
 
-    public function init() {
-        if ($this->is_tracked()) {
-            \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
-            \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
-        }
+    public function init() {}
+
+    public function init_events() {
+        \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
+        \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
     }
 
     public function event_end_page(Event $event) {
@@ -192,6 +194,7 @@ class CanUrl extends Component implements BootstrapInterface {
 
         $this->if_need_then_send_redirect(TRUE);
     }
+
     public function event_after_request(Event $event) {
         $this->if_need_then_send_redirect(TRUE);
     }
@@ -339,6 +342,7 @@ class CanUrl extends Component implements BootstrapInterface {
      */
     public function if_need_then_send_redirect($is_final, $current_url = null) {
 
+        die('1');
         if (!$this->is_tracked()) return false;
 
         $res = $this->is_need_redirect($is_final, $current_url);
