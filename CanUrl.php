@@ -9,8 +9,6 @@ use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\base\UserException;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\Application;
 use yii\web\View;
 
@@ -299,8 +297,6 @@ class CanUrl extends Component {
         return $this->ADDminor_params($add_minor_params);
     }
     public function ADDminor_pname($add_minor_pname) { return $this->ADDminor_pnames($add_minor_pname); }
-
-
 
 
 
