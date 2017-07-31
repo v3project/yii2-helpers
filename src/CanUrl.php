@@ -311,6 +311,7 @@ class CanUrl extends Component implements BootstrapInterface {
      * @param bool        $is_final
      */
     public function if_need_then_send_redirect($is_final, $current_url = null, $just_get_and_head = true) {
+        var_dump(\Yii::$app->getRequest());die;
         if (!empty($just_get_and_head) AND in_array(\Yii::$app->getRequest()->getMethod(),['GET','HEAD'],true)) return false;
         $res = $this->is_need_redirect($is_final, $current_url);
         if ($res === false) return false;
