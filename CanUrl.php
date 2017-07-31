@@ -42,7 +42,10 @@ use yii\web\View;
  * @property string       canurl
  *
  *
- *
+ * @property array extra_tracked_methods
+ * @property bool  is_track_ajax
+ * @property bool  is_track_pjax
+ * @property bool  is_track_flash
  *
  *
  * @property array        important_params
@@ -168,8 +171,10 @@ class CanUrl extends Component {
 
 
     public function init() {
-        \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
-        \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
+        if ($this->is_tracked()) {
+            \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
+            \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
+        }
     }
 
     public function event_end_page(Event $event) {
@@ -299,14 +304,43 @@ class CanUrl extends Component {
 
 
 
+
+
+
+
+
+
+    public $extra_tracked_methods = [];
+    public $is_track_ajax = false;
+    public $is_track_pjax = false;
+    public $is_track_flash = false;
+
+
+    public function is_tracked() {
+        $request = \Yii::$app->getRequest();
+
+        $request_method = $request->getMethod();
+        if (!in_array($request_method, ['GET','HEAD']) AND !in_array($request_method, $this->extra_tracked_methods)) return false;
+
+        if (!$this->is_track_ajax AND $request->getIsAjax()) return false;
+        if (!$this->is_track_pjax AND $request->getIsPjax()) return false;
+        if (!$this->is_track_flash AND $request->getIsFlash()) return false;
+
+        return true;
+    }
+
+
     /**
      * @param string|null $current_url
      * @param bool        $is_final
      */
-    public function if_need_then_send_redirect($is_final, $current_url = null, $just_get_and_head = true) {
-        if (!empty($just_get_and_head) AND in_array(\Yii::$app->getRequest()->getMethod(),['GET','HEAD'],true)) return false;
+    public function if_need_then_send_redirect($is_final, $current_url = null) {
+
+        if (!$this->is_tracked()) return false;
+
         $res = $this->is_need_redirect($is_final, $current_url);
         if ($res === false) return false;
+
         \Yii::$app->getResponse()->redirect($res,301,true)->send();
         exit;
     }
