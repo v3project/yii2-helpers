@@ -59,7 +59,7 @@ class CanUrl extends Component implements BootstrapInterface {
 
     public function bootstrap($application)
     {
-        if (!\Yii::$app instanceof Application) {
+        if (!$application instanceof Application) {
             return false;
         }
 
