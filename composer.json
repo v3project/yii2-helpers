@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "v3project\\helpers\\": ""
+            "v3project\\helpers\\": "src/"
         }
     }
 }
