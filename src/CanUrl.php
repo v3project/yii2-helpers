@@ -349,7 +349,12 @@ class CanUrl extends Component implements BootstrapInterface {
         $res = $this->is_need_redirect($is_final, $current_url);
         if ($res === false) return false;
 
-        \Yii::$app->getResponse()->redirect($res,301,true)->send();
+        $response = \Yii::$app->getResponse();
+
+        $response->getHeaders()->set('Location', $res);
+        $response->getHeaders()->add('X-Can-Url', 'YES');
+        $response->setStatusCode(301);
+        $response->send();
         exit;
     }
 
