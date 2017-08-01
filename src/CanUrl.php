@@ -57,14 +57,36 @@ use yii\web\View;
  */
 class CanUrl extends Component implements BootstrapInterface {
 
-    public function bootstrap($application)
-    {
-        if (!$application instanceof Application) {
-            return false;
+    public function bootstrap($application) {
+        if ($application instanceof Application) {
+            $this->init_events();
         }
-
-        $this->init_events();
     }
+    public function init_events() {
+        \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
+        \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
+    }
+
+    public function event_end_page(Event $event) {
+
+        $canurl = $this->GETcanurl();
+
+        /** @var \yii\web\View $view */
+        $view = $event->sender;
+        $view->linkTags['canonical'] = '<link rel="canonical" href="'.$canurl.'"/>';
+
+        $this->if_need_then_send_redirect(TRUE);
+    }
+
+    public function event_after_request(Event $event) {
+        $this->if_need_then_send_redirect(TRUE);
+    }
+
+
+
+
+
+
 
     protected $_scheme;
     public function SETscheme($value) { $this->_scheme = $value; return $this;  }
@@ -177,27 +199,7 @@ class CanUrl extends Component implements BootstrapInterface {
 
 
 
-    public function init() {}
 
-    public function init_events() {
-        \Yii::$app->getView()->on(View::EVENT_END_PAGE, [$this, 'event_end_page']);
-        \Yii::$app->on(Application::EVENT_AFTER_REQUEST, [$this, 'event_after_request']);
-    }
-
-    public function event_end_page(Event $event) {
-
-        $canurl = $this->GETcanurl();
-
-        /** @var \yii\web\View $view */
-        $view = $event->sender;
-        $view->linkTags['canonical'] = '<link rel="canonical" href="'.$canurl.'"/>';
-
-        $this->if_need_then_send_redirect(TRUE);
-    }
-
-    public function event_after_request(Event $event) {
-        $this->if_need_then_send_redirect(TRUE);
-    }
 
 
 
