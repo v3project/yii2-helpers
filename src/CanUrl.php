@@ -352,7 +352,7 @@ class CanUrl extends Component implements BootstrapInterface {
         $response = \Yii::$app->getResponse();
 
         $response->getHeaders()->set('Location', $res);
-        $response->getHeaders()->add('X-Can-Url', 'YES');
+        $response->getHeaders()->set('X-Can-Url', 'YES');
         $response->setStatusCode(301);
         $response->send();
         exit;
