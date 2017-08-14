@@ -61,12 +61,24 @@ class UrlHelper {
 
         if (!is_bool($use_rawurlencode)) throw new InvalidParamException('(!is_array($use_rawurlencode))');
 
+        return http_build_query($data, null, $glue);
+
         $ret = [];
         foreach ($data as $k => $v) {
             if (!isset($v)) continue;
-            elseif ($use_rawurlencode) $ret[] = rawurlencode($k).'='.rawurlencode($v);
-            else $ret[] = urlencode($k).'='.urlencode($v);
+            elseif ($use_rawurlencode) {
+                $ret[] = rawurlencode($k).'='.rawurlencode($v);
+            }
+            else  {
+                if (is_array($v)) {
+                    $ret[] = http_build_query($v);
+                } else  {
+                    $ret[] = urlencode($k).'='.urlencode($v);
+                }
+
+            }
         }
+
         return implode($glue, $ret);
     }
     static public function build_url($parsed_url) {
