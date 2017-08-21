@@ -1,6 +1,6 @@
 {
     "name": "v3project/yii2-helpers",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Yii2 helpers",
     "keywords": ["yii2", "helpers"],
     "type": "yii2-extension",

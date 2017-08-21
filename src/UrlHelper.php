@@ -61,26 +61,38 @@ class UrlHelper {
 
         if (!is_bool($use_rawurlencode)) throw new InvalidParamException('(!is_array($use_rawurlencode))');
 
-        return http_build_query($data, null, $glue);
+        if ($use_rawurlencode) {
 
-        $ret = [];
-        foreach ($data as $k => $v) {
-            if (!isset($v)) continue;
-            elseif ($use_rawurlencode) {
-                $ret[] = rawurlencode($k).'='.rawurlencode($v);
-            }
-            else  {
-                if (is_array($v)) {
-                    $ret[] = http_build_query($v);
-                } else  {
-                    $ret[] = urlencode($k).'='.urlencode($v);
-                }
+            /**
+             * $test = "test text";
+                print_r(rawurlencode($test)); //test%20text
+                print_r("<br />");
+                print_r(urlencode($test)); //test+text
+                print_r("<br />");
+                print_r("<br />");
+                $testArray = ["test" => "test text"];
+                print_r(http_build_query($testArray, null, null, PHP_QUERY_RFC3986)); //test=test%20text
+                print_r("<br />");
+                print_r(http_build_query($testArray)); //test=test+text
+             */
 
-            }
+            /**
+             * $ret[] = rawurlencode($k).'='.rawurlencode($v);
+             * rawurlencode - URL-кодирование в соответствии с RFC1738.
+             * http_build_query - использует PHP_QUERY_RFC1738 - по умолчанию
+             */
+            return http_build_query($data, null, $glue, PHP_QUERY_RFC3986);
+        } else {
+            /**
+             * $ret[] = urlencode($k).'='.urlencode($v);
+             * urlencode - URL-кодирует строку.
+             * Она кодируется тем же способом, что и post данные WWW-формы, то есть как в типе носителя application/x-www-form-urlencoded. Это отличается от RFC1738-кодирования (см. rawurlencode()) тем, что, по историческим соображениям, пробелы кодируются как плюсы (+).Эта функция удобна при кодировании строки для использования в части запроса URL для передачи переменных на следующую страницу:
+             */
+            return http_build_query($data, null, $glue);
         }
-
-        return implode($glue, $ret);
     }
+
+
     static public function build_url($parsed_url) {
 
         if (!is_array($parsed_url)) throw new InvalidParamException('(!is_array($parsed_url))');
