@@ -61,6 +61,17 @@ class UrlHelper {
 
         if (!is_bool($use_rawurlencode)) throw new InvalidParamException('(!is_array($use_rawurlencode))');
 
+        $remove_nulls_func = function ($arr) use (&$remove_nulls_func) {
+            foreach ($arr as $kkk => $vvv) {
+                if (is_array($vvv)) $vvv = call_user_func($remove_nulls_func, $vvv);
+
+                if (is_null($vvv)) unset($arr[$kkk]);
+                else $arr[$kkk] = $vvv;
+            }
+            return $arr;
+        };
+        $data = call_user_func($remove_nulls_func, $data);
+
         if ($use_rawurlencode) {
 
             /**
@@ -78,17 +89,18 @@ class UrlHelper {
 
             /**
              * $ret[] = rawurlencode($k).'='.rawurlencode($v);
-             * rawurlencode - URL-кодирование в соответствии с RFC1738.
+             * rawurlencode - URL-кодирование в соответствии с RFC3986.
              * http_build_query - использует PHP_QUERY_RFC1738 - по умолчанию
              */
             return http_build_query($data, null, $glue, PHP_QUERY_RFC3986);
         } else {
             /**
              * $ret[] = urlencode($k).'='.urlencode($v);
-             * urlencode - URL-кодирует строку.
+             * urlencode - URL-кодирует строку в соответствии с RFC1738.
+             * http_build_query - использует PHP_QUERY_RFC1738 - по умолчанию
              * Она кодируется тем же способом, что и post данные WWW-формы, то есть как в типе носителя application/x-www-form-urlencoded. Это отличается от RFC1738-кодирования (см. rawurlencode()) тем, что, по историческим соображениям, пробелы кодируются как плюсы (+).Эта функция удобна при кодировании строки для использования в части запроса URL для передачи переменных на следующую страницу:
              */
-            return http_build_query($data, null, $glue);
+            return http_build_query($data, null, $glue, PHP_QUERY_RFC1738);
         }
     }
 
