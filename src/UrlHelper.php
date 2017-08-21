@@ -93,7 +93,8 @@ class UrlHelper {
              * http_build_query - использует PHP_QUERY_RFC1738 - по умолчанию
              */
             return http_build_query($data, null, $glue, PHP_QUERY_RFC3986);
-        } else {
+        }
+        else {
             /**
              * $ret[] = urlencode($k).'='.urlencode($v);
              * urlencode - URL-кодирует строку в соответствии с RFC1738.
