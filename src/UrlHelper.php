@@ -61,16 +61,10 @@ class UrlHelper {
 
         if (!is_bool($use_rawurlencode)) throw new InvalidParamException('(!is_array($use_rawurlencode))');
 
-        $remove_nulls_func = function ($arr) use (&$remove_nulls_func) {
-            foreach ($arr as $kkk => $vvv) {
-                if (is_array($vvv)) $vvv = call_user_func($remove_nulls_func, $vvv);
 
-                if (is_null($vvv)) unset($arr[$kkk]);
-                else $arr[$kkk] = $vvv;
-            }
-            return $arr;
-        };
-        $data = call_user_func($remove_nulls_func, $data);
+        foreach ($data as $kkk => $vvv) {
+            if (!isset($vvv)) unset($data[$kkk]);
+        }
 
         if ($use_rawurlencode) {
 
