@@ -1,8 +1,8 @@
 {
     "name": "v3project/yii2-helpers",
     "version": "1.0.9",
-    "description": "Yii2 helpers",
-    "keywords": ["yii2", "helpers"],
+    "description": "V3Project Yii2 Helpers",
+    "keywords": ["v3project", "yii2", "helpers"],
     "type": "yii2-extension",
     "authors": [
         {
@@ -10,8 +10,9 @@
             "email": "k.znamenskiy@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
+    "prefer-stable" : true,
     "require": {
-        "php": ">=5.3.0",
         "yiisoft/yii2": "^2.0"
     },
     "autoload": {
