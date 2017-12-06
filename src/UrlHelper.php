@@ -40,6 +40,7 @@ class UrlHelper {
 
         return $url;
     }
+
     static public function remove_parameters_from_url($url = null, $pnames = []) {
 
         if (!isset($url)) $url = \Yii::$app->getRequest()->getAbsoluteUrl();
