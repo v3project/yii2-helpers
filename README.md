@@ -25,6 +25,6 @@ or add
 
 ___
 
-[http://v3project.com](http://v3project.com)
+[http://v3project.ru](http://v3project.ru)
 
 
