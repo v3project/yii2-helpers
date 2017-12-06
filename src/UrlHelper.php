@@ -15,6 +15,7 @@ class UrlHelper {
         parse_str($parsed_url['query'], $parsed_url_query);
         return $parsed_url_query;
     }
+
     static public function add_parameters_to_url($url = null, $pname2value = []) {
 
         if (!isset($url)) $url = \Yii::$app->getRequest()->getAbsoluteUrl();
