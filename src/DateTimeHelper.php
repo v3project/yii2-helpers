@@ -82,9 +82,11 @@ class DateTimeHelper {
         if (!isset($formates)) {
             $formates = [
                 \DateTime::ISO8601, // 'Y-m-d\TH:i:sO';
+                'Y-m-d\TH:i:s.uO',
                 'Y-m-d H:i:sO',
                 'Y-m-d H:i:s.uO',
                 \DateTime::ATOM, // 'Y-m-d\TH:i:sP';
+                'Y-m-d\TH:i:s.uP',
                 'Y-m-d H:i:sP',
                 'Y-m-d H:i:s.uP',
                 'Y-m-d H:i:s',
