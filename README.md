@@ -1,4 +1,4 @@
-V3Project yii2 helpers
+V3Project Yii2 Helpers
 ======================
 
 Installation
@@ -25,6 +25,6 @@ or add
 
 ___
 
-[http://v3project.ru](http://v3project.ru)
+[https://v3project.ru](https://v3project.ru)
 
 
