@@ -60,7 +60,7 @@ class DateTimeHelper {
         return static::create_ddt($uts, 'uts');
     }
     static public function create_dt_from_postgres_ts($value, $deprecated_unused_parameter = null) {
-        return self::create_dt($value, [self::get_postgres_ts_format('timestamp'), 'Y-m-d H:i:sO', 'Y-m-d H:i:s.uO', 'Y-m-d\TH:i:sO']);
+        return self::create_dt($value, [self::get_postgres_ts_format('timestamp'), 'Y-m-d\TH:i:sO', 'Y-m-d\TH:i:s.uO', 'Y-m-d H:i:sO', 'Y-m-d H:i:s.uO', ]);
     }
     static public function create_ddt_from_postgres_date($value, $deprecated_unused_parameter = null) {
         return self::create_ddt($value, self::get_postgres_ts_format('date'));
