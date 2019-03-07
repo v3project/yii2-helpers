@@ -1,6 +1,5 @@
 {
     "name": "v3project/yii2-helpers",
-    "version": "1.0.13",
     "description": "V3Project Yii2 Helpers",
     "keywords": ["v3project", "yii2", "helpers"],
     "type": "yii2-extension",
@@ -13,7 +12,7 @@
     "minimum-stability": "stable",
     "prefer-stable" : true,
     "require": {
-        "yiisoft/yii2": "^2.0"
+        "yiisoft/yii2": "^2.0.16"
     },
     "autoload": {
         "psr-4": {
